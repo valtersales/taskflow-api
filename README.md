@@ -61,7 +61,7 @@ cd taskflow-api
 2. Start services with Docker Compose:
 
 ```bash
-docker-compose up --build -d
+docker compose up --build -d
 ```
 
 ### Local Execution
@@ -108,7 +108,7 @@ Authorization: Bearer <your-jwt-token>
 ### 1. Register user
 
 ```bash
-curl -X POST http://localhost:8080/api/auth/register \
+curl -X POST http://localhost:18080/api/auth/register \
   -H "Content-Type: application/json" \
   -d '{
     "name": "John Doe",
@@ -120,7 +120,7 @@ curl -X POST http://localhost:8080/api/auth/register \
 ### 2. Login
 
 ```bash
-curl -X POST http://localhost:8080/api/auth/login \
+curl -X POST http://localhost:18080/api/auth/login \
   -H "Content-Type: application/json" \
   -d '{
     "email": "john@email.com",
@@ -131,7 +131,7 @@ curl -X POST http://localhost:8080/api/auth/login \
 ### 3. Create task
 
 ```bash
-curl -X POST http://localhost:8080/api/tasks \
+curl -X POST http://localhost:18080/api/tasks \
   -H "Content-Type: application/json" \
   -H "Authorization: Bearer <your-token>" \
   -d '{
@@ -145,7 +145,7 @@ curl -X POST http://localhost:8080/api/tasks \
 ### 4. List tasks with filters
 
 ```bash
-curl "http://localhost:8080/api/tasks?status=IN_PROGRESS&priority=HIGH&page=0&size=10" \
+curl "http://localhost:18080/api/tasks?status=IN_PROGRESS&priority=HIGH&page=0&size=10" \
   -H "Authorization: Bearer <your-token>"
 ```
 
@@ -153,23 +153,23 @@ curl "http://localhost:8080/api/tasks?status=IN_PROGRESS&priority=HIGH&page=0&si
 
 ### Container Structure
 
-- **taskflow-api**: Spring Boot application (port 8080)
-- **taskflow-postgres**: PostgreSQL database (port 5432)
+- **taskflow-api**: Spring Boot application (container 8080, exposed as 18080)
+- **taskflow-postgres**: PostgreSQL database (container 5432, exposed as 55432)
 
 ### Useful Commands
 
 ```bash
 # Start services
-docker-compose up -d
+docker compose up -d
 
 # View logs
-docker-compose logs -f
+docker compose logs -f
 
 # Stop services
-docker-compose down
+docker compose down
 
 # Complete rebuild
-docker-compose down && docker-compose up --build -d
+docker compose down && docker compose up --build -d
 ```
 
 ## 🌐 AWS Deployment (manual)
@@ -191,8 +191,6 @@ PORT=8080
 
 SPRING_PROFILES_ACTIVE=prod
 
-````
-
 ## 🧪 Tests
 
 ```bash
@@ -205,11 +203,17 @@ mvn test jacoco:report
 
 ## 📖 Swagger / OpenAPI
 
-- UI: `http://localhost:8080/swagger-ui.html`
-- Docs JSON: `http://localhost:8080/v3/api-docs`
+- UI: `http://localhost:18080/swagger-ui.html`
+- Docs JSON: `http://localhost:18080/v3/api-docs`
 
 To test protected endpoints in Swagger UI:
+
 - Click "Authorize" and provide `Bearer <your-jwt-token>`
+
+## 🩺 Health / Actuator
+
+- Health: `GET /actuator/health`
+- Info: `GET /actuator/info`
 
 ## 📊 Monitoring
 
@@ -229,15 +233,4 @@ The application includes:
 
 ## 📄 License
 
-This project is under the MIT license. See the `LICENSE` file for more details.
-
-## 👨‍💻 Author
-
-Developed as a portfolio project to demonstrate skills in:
-
-- Clean architecture in Java
-- REST APIs with Spring Boot
-- Security with JWT
-- Docker and containerization
-- Development best practices
-````
+This project is under the MIT license. See the `
