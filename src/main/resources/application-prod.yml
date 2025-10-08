@@ -6,7 +6,7 @@ server:
 # Database Configuration
 spring:
   datasource:
-    url: ${DATABASE_URL:jdbc:postgresql://localhost:5432/taskflow-dev}
+    url: ${DATABASE_URL:jdbc:postgresql://localhost:5432/taskflow}
     username: ${DATABASE_USERNAME:taskflow_user}
     password: ${DATABASE_PASSWORD:taskflow_password}
     driver-class-name: org.postgresql.Driver
